@@ -1,0 +1,4 @@
+interface:
+  display_name: "Zep Minimal Presentation"
+  short_description: "先展示五种模板供选择，再用结构化内容与离线生成器制作分享演示"
+  default_prompt: "请用 $zep-minimal-presentation 制作分享演示；如果我尚未指定模板，先展示五种选项和预览，等我选好后再生成。按观点、证据和演示组织内容，使用合适页型与模板固定配色；运行包内生成器和--verify，再检查HTML画面。"
