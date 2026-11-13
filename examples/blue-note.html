@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="presentation-version" content="1.1.1"><meta name="presentation-theme" content="blue-note"><meta name="presentation-style-sha256" content="308ff192b71e16bacb13d37b88b74d2d7aca3f8ad552f653ae2225339f9b6047"><title>把复杂问题，讲清楚</title><style>:root{--sans:Arial,"Helvetica Neue","Hiragino Sans","PingFang SC","Microsoft YaHei",sans-serif;--accent:#1919e6;--ink:#101010;--paper:#fff;--muted:#727272;--line:#d5d5d5;--soft:#f3f3f3;--weight:400;--radius:0px;color-scheme:light}
+
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:var(--sans);background:#191b1e;color:#eceef1}
+button,a{-webkit-tap-highlight-color:transparent}
+button{font:inherit;cursor:pointer}
+button:disabled{opacity:.3;cursor:default}
+button:focus-visible,a:focus-visible{outline:3px solid #df8210;outline-offset:4px}
+button{border:0;background:none;color:inherit}
+a{color:inherit;text-underline-offset:4px}
+.toolbar,.navigation{height:52px;max-width:1440px;margin:0 auto;padding:0 28px;display:flex;align-items:center;justify-content:space-between;gap:20px;font-size:12px;color:#bbc0c5}
+.toolbar button{padding:9px 12px}
+.deck-name{max-width:55%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.toolbar>div{display:flex;align-items:center}
+.navigation{height:50px}
+.navigation>div{display:flex;gap:12px}
+.navigation button{font-size:22px;padding:6px 12px}
+.keys{color:#989ea7}
+#progress{position:fixed;bottom:0;left:0;height:3px;background:var(--accent);width:0;pointer-events:none}
+
+#stage{padding:12px 24px;overflow:auto;height:calc(100dvh - 102px);display:grid;place-items:center;outline:none}
+.slide{position:relative;container-type:inline-size;width:min(1280px,calc((100dvh - 126px)*16/9),100%);aspect-ratio:16/9;color:var(--ink);background:var(--paper);display:flex;flex-direction:column;overflow:hidden}
+.slide[hidden]{display:none!important}
+.slide{padding:0}
+.content{position:absolute;inset:15% 6% 12%;display:flex;flex-direction:column;min-height:0}
+.slide-head,.slide-foot{position:absolute;left:6%;right:6%;display:flex;justify-content:space-between;align-items:center;font-size:1cqw;line-height:1.3;letter-spacing:.025em}
+.slide-head{top:5%;color:var(--muted)}
+.slide-foot{bottom:5%;font-size:.85cqw;color:var(--muted)}
+h1,h2,h3,p,figure{margin:0}
+h1,h2,h3{font-weight:var(--weight);letter-spacing:-.045em;overflow-wrap:anywhere}
+h1{font-size:6.5cqw;line-height:1.17;max-width:95%}
+h2{font-size:3.45cqw;line-height:1.25}
+h3{font-size:2.05cqw;line-height:1.38;letter-spacing:-.025em}
+p{font-size:1.65cqw;line-height:1.65;overflow-wrap:anywhere}
+.line{display:block}
+.lead{color:var(--muted);max-width:74%;margin-top:1.5cqw}
+.subhead{font-size:1.9cqw;margin-top:2.7cqw;color:var(--muted);max-width:70%}
+.basis,.caption,.credit{font-size:1.05cqw;line-height:1.55;color:var(--muted)}
+.content-heading{flex-shrink:0}
+.hero{margin:auto 0;position:relative;z-index:1}
+.type-cover .hero{max-width:88%;margin-top:auto;margin-bottom:3cqw}
+.type-cover h1{font-size:7.7cqw}
+.type-end .hero{max-width:85%}
+.signature{display:flex;gap:.9cqw;position:absolute;top:0;right:0;transform:rotate(-30deg)}
+.signature i{display:block;width:1.7cqw;height:7cqw;background:currentColor;opacity:.1}
+.signature i:nth-child(2){height:12cqw}
+.signature i:nth-child(3){height:9cqw}
+.signature i:nth-child(4){height:4cqw}
+
+.type-contents .content{display:grid;grid-template-columns:1fr 1.45fr;gap:7cqw}
+.contents-intro{display:flex;flex-direction:column;justify-content:space-between}
+.contents-intro .lead{max-width:100%;font-size:1.9cqw}
+.toc{display:flex;flex-direction:column;justify-content:center}
+.toc-row{border-bottom:1px solid var(--line);display:grid;grid-template-columns:3.5cqw 1fr 2cqw;gap:1cqw;text-align:left;align-items:center;padding:1.5cqw 0}
+.toc-row:first-child{border-top:1px solid var(--line)}
+.toc-row small{font-size:1cqw;color:var(--muted)}
+.toc-row strong{font-size:2cqw;font-weight:var(--weight)}
+.toc-row>span{font-size:1.8cqw;color:var(--accent)}
+.items{display:grid;grid-template-columns:repeat(var(--count),minmax(0,1fr));gap:3cqw;flex:1;margin-top:4cqw;min-height:0}
+.item{position:relative;display:flex;flex-direction:column;border-top:1px solid var(--line);padding-top:1.7cqw;min-width:0}
+.item-index{font-size:1.1cqw;letter-spacing:.02em;color:var(--muted);margin-bottom:auto;padding-bottom:2cqw}
+.item p{margin-top:1.5cqw;color:var(--muted);font-size:1.45cqw}
+.columns .item{justify-content:flex-end;padding-bottom:1cqw}
+.columns .item-index{font-size:3.6cqw;font-weight:var(--weight);color:var(--accent)}
+.metric-value{font-size:7cqw;font-weight:var(--weight);line-height:1;letter-spacing:-.065em;margin:1.3cqw 0 auto}
+.metric-value small{font-size:1.35cqw;letter-spacing:0;margin-left:.5cqw}
+.metrics h3{margin-top:2cqw}
+.metrics .item p{margin-top:.7cqw}
+.timeline{position:relative;margin-top:5cqw;gap:2cqw}
+.timeline .item{border:0;padding-top:3cqw}
+.timeline .item:before{content:'';position:absolute;top:0;left:0;width:1.1cqw;height:1.1cqw;border:2px solid var(--accent);border-radius:50%;background:var(--paper);z-index:1}
+.timeline .item:not(:last-child):after{content:'';position:absolute;top:.55cqw;left:1.1cqw;width:calc(100% + 1cqw);height:1px;background:var(--line)}
+.time-label{font-size:3.5cqw;letter-spacing:-.055em;font-weight:var(--weight);margin-bottom:auto;padding-bottom:2cqw}
+.process .item{border:0;padding:2cqw;background:var(--soft);border-radius:var(--radius)}
+.process .item-index{font-size:4.3cqw;color:var(--accent)}
+.process .item:not(:last-child):after{content:'→';position:absolute;right:-2.5cqw;top:50%;font-size:2cqw;color:var(--muted)}
+.comparison{gap:5cqw}
+.comparison .item{padding:2.5cqw;background:var(--soft);border:0}
+.comparison .item:last-child{background:var(--ink);color:var(--paper)}
+.comparison .item:last-child p,.comparison .item:last-child .item-index{color:inherit;opacity:.8}
+.comparison .item-index{font-size:1.2cqw;margin:0 0 3cqw}
+.comparison h3{font-size:2.9cqw}
+.comparison p{font-size:1.65cqw;line-height:1.8}
+
+.type-ratio .content{display:grid;grid-template-columns:1fr 1fr;gap:7cqw}
+.ratio-intro{display:flex;flex-direction:column}
+.ratio-intro .lead{max-width:100%}
+.ratio-intro .basis{margin-top:auto;max-width:95%}
+.ratio-visual{display:flex;flex-direction:column;justify-content:center}
+.ratio-value{font-size:13cqw;letter-spacing:-.08em;line-height:1;font-weight:var(--weight);margin-bottom:2.6cqw}
+.ratio-value small{font-size:.4em;letter-spacing:-.05em}
+.ratio-track{width:100%;height:3cqw;background:var(--soft);overflow:hidden}
+.ratio-fill{height:100%;background:var(--accent);transform-origin:left}
+.ratio-visual p{margin-top:2cqw;color:var(--muted)}
+.dot-matrix{display:grid;grid-template-columns:repeat(10,1fr);gap:.8cqw;max-width:92%}
+.matrix-dot{width:1.3cqw;height:1.3cqw;background:var(--accent);border-radius:50%}
+.matrix-dot.empty{background:transparent;outline:1px solid var(--line);outline-offset:-1px}
+.chart-wrap{margin:2cqw 0 .8cqw;flex:1;min-height:0;display:flex;flex-direction:column}
+.axis-unit{font-size:1.05cqw;color:var(--muted)}
+.chart-svg{display:block;width:100%;flex:1;min-height:0;max-height:29cqw;overflow:visible}
+.chart-grid line{stroke:var(--line);stroke-width:1}
+.chart-grid text,.chart-labels text{fill:var(--muted);font-size:15px}
+.chart-line{stroke:var(--accent);stroke-width:3;fill:none}
+.chart-points circle{fill:var(--accent)}
+.data-value{fill:var(--ink);font-size:16px}
+.gallery{display:grid;grid-template-columns:repeat(var(--count),minmax(0,1fr));gap:3cqw;flex:1;margin-top:3cqw;min-height:0}
+.gallery figure{display:flex;flex-direction:column;min-width:0}
+.media{height:18cqw;flex-shrink:0;background:var(--soft);display:grid;place-items:center;overflow:hidden}
+.media img{display:block;width:100%;height:100%;object-fit:contain}
+.art{width:90%;height:90%;fill:none;stroke:var(--accent);stroke-width:2.5}
+.art rect{fill:var(--paper)}
+.art circle{fill:var(--accent)}
+figcaption{padding-top:1.7cqw}
+figcaption p{font-size:1.3cqw;color:var(--muted);margin-top:.6cqw}
+figcaption .credit{font-size:.9cqw}
+
+
+/* Each theme owns all three tones, including foreground contrast. */
+.tone-dark{--paper:#111;--ink:#fff;--muted:#bdbdbd;--line:#555;--soft:#222;--accent:#c9c9c9}
+
+.tone-accent{--paper:#1919e6;--ink:#fff;--muted:#ceceff;--line:#ffffff55;--soft:#ffffff18;--accent:#ceceff}
+
+.theme-blue-note{--paper:#fff;--ink:#101010;--accent:#1919e6;--muted:#727272;--line:#d5d5d5;--soft:#f3f3f3;--weight:400}
+
+.theme-blue-note .tone-dark{--paper:#050505;--ink:#fff;--muted:#a0a0a0;--line:#444;--soft:#181818;--accent:#a0a0a0}
+
+.theme-blue-note .tone-accent{--paper:#1919e6;--ink:#fff;--muted:#ceceff;--line:#ffffff55;--soft:#ffffff18;--accent:#ceceff}
+
+.theme-blue-note .signature{display:none}
+
+.theme-blue-note .content{inset:10% 4% 10%}
+
+.theme-blue-note .slide-head,.theme-blue-note .slide-foot{left:4%;right:4%;font-family:ui-monospace,monospace;font-size:.8cqw}
+
+.theme-blue-note .slide-head{top:3.5%}
+.theme-blue-note .slide-foot{bottom:3.5%}
+
+.theme-blue-note h2{font-size:4.05cqw}
+.theme-blue-note .type-cover h1,.theme-blue-note .type-statement h1,.theme-blue-note .type-end h1{font-size:6.8cqw;line-height:1.25}
+
+.theme-blue-note .hero{margin:auto 0 1.5cqw;max-width:100%}
+.theme-blue-note .type-contents .content{grid-template-columns:.8fr 1.4fr}
+
+.theme-blue-note .process .item{background:none;border-top:1px solid var(--line);padding:2cqw 0}
+
+.theme-paper-grid{--paper:#fff;--ink:#111;--accent:#1769e6;--muted:#686868;--line:#b9b9b9;--soft:#f3f3f3;--weight:400}
+
+.theme-paper-grid .tone-dark{--paper:#111;--ink:#fff;--muted:#bdbdbd;--line:#555;--soft:#242424;--accent:#a5c7ff}
+
+.theme-paper-grid .tone-accent{--paper:#1769e6;--ink:#fff;--muted:#e5eeff;--line:#ffffff66;--soft:#ffffff15;--accent:#fff}
+
+.theme-paper-grid .content{inset:17% 6% 12%}
+.theme-paper-grid .slide-head{border-bottom:1px solid var(--line);padding-bottom:1.5cqw}
+
+.theme-paper-grid .type-cover h1{font-size:7.2cqw;max-width:85%}
+.theme-paper-grid .signature{display:none}
+.theme-paper-grid .columns .item-index{font-size:1.2cqw}
+
+.theme-paper-grid .type-statement h1{max-width:88%;font-size:5.8cqw}
+.theme-paper-grid .process .item{background:none;border-top:1px solid var(--line);padding:2cqw 0}
+
+.theme-midnight{--paper:#0c0b18;--ink:#f6f5fb;--accent:#d3d0ff;--muted:#b1afc3;--line:#646178;--soft:#1c192b;--weight:400;--radius:2px}
+
+.theme-midnight .tone-dark{--paper:#0c0b18;--ink:#f6f5fb;--accent:#d3d0ff;--muted:#b1afc3;--line:#646178;--soft:#1c192b}
+
+.theme-midnight .tone-light{--paper:#f4f3f8;--ink:#171320;--muted:#615e70;--line:#c5c1d3;--soft:#e9e6f0;--accent:#51448d}
+
+.theme-midnight .tone-accent{--paper:#242038;--ink:#fff;--muted:#d6d1e5;--line:#817994;--soft:#342e48;--accent:#ded9ff}
+
+.theme-midnight .tone-dark{background:radial-gradient(ellipse at 65% 105%,#16152e 0%,#0c0b1b 52%,#030305 100%)}
+
+.theme-midnight .signature{display:none}
+.theme-midnight .type-cover h1{font-size:7cqw;max-width:90%}
+.theme-midnight .slide-foot{border-top:1px solid var(--line);padding-top:1cqw}
+
+.theme-mono-signal{--paper:#fafafa;--ink:#101010;--muted:#727272;--line:#c8c8c8;--soft:#eee;--accent:#2346e8;--weight:600}
+
+.theme-mono-signal .tone-dark{--paper:#111;--ink:#f9f9f9;--muted:#bebebe;--line:#555;--soft:#242424;--accent:#c7c7c7}
+
+.theme-mono-signal .tone-accent{--paper:#111;--ink:#f9f9f9;--muted:#bebebe;--line:#555;--soft:#242424;--accent:#d8dfff;background:linear-gradient(180deg,#111 0%,#111 74%,#10152e 86%,#0521a7 100%)}
+
+.theme-mono-signal .slide-head{font-family:ui-monospace,monospace;letter-spacing:.025em;border-bottom:1px solid var(--line);padding-bottom:1.2cqw}
+
+.theme-mono-signal .slide-foot{border-top:1px solid var(--line);padding-top:.9cqw}
+.theme-mono-signal .type-cover h1{font-size:7.5cqw;line-height:1.12;max-width:95%}
+.theme-mono-signal .signature{display:none}
+
+.theme-mono-signal .type-contents .content{display:flex}
+.theme-mono-signal .contents-intro{display:grid;grid-template-columns:1fr 1fr;gap:4cqw}
+.theme-mono-signal .contents-intro .lead{font-size:1.5cqw;margin:0}
+
+.theme-mono-signal .toc{display:grid;grid-template-columns:1fr 1fr;gap:0 4cqw;margin-top:3cqw}
+.theme-mono-signal .toc-row:first-child{border-top:0}
+.theme-mono-signal .matrix-dot{border-radius:0}
+
+.theme-acid-notes{--paper:#fff;--ink:#181818;--muted:#686868;--line:#c8c8c8;--soft:#f1f1f1;--accent:#181818;--weight:700}
+
+.theme-acid-notes .tone-accent{--paper:#ffff00;--ink:#181818;--muted:#505000;--line:#9a9a00;--soft:#eeee00;--accent:#181818}
+
+.theme-acid-notes .tone-dark{--paper:#231f20;--ink:#fff;--muted:#c9c6c6;--line:#6a6566;--soft:#373233;--accent:#ffff00}
+
+.theme-acid-notes .slide-head>span:first-child:before{content:'';display:inline-block;width:.6cqw;height:.6cqw;background:var(--accent);margin-right:1cqw}
+
+.theme-acid-notes .type-cover h1{font-size:7.4cqw;max-width:90%}
+.theme-acid-notes .signature{top:auto;bottom:0;right:0;transform:none;gap:1.4cqw}
+
+.theme-acid-notes .signature i{width:.65cqw;height:.65cqw;opacity:1}
+.theme-acid-notes .signature i:nth-child(2){margin-bottom:1.5cqw}
+.theme-acid-notes .signature i:nth-child(3){margin-top:1.5cqw}
+
+.theme-acid-notes .type-statement .hero{padding-left:4cqw;border-left:.5cqw solid var(--accent)}
+.theme-acid-notes .matrix-dot{border-radius:0;background:var(--ink)}
+.theme-acid-notes .matrix-dot.empty{background:transparent}
+
+.theme-acid-notes .columns .item-index{color:var(--ink);font-size:4cqw}
+.theme-acid-notes .type-end h1 .line:last-child{font-family:Georgia,"Songti SC",serif;font-weight:400}
+
+/* Semantic layouts shared across themes, with no topic-specific illustrations. */
+.highlight{font-style:normal;color:var(--accent)}
+.theme-acid-notes .tone-light .highlight{color:#181818;background:#ffff00}
+
+.type-section .content{justify-content:space-between}
+.chapter-index{display:flex;flex-direction:column;gap:.2cqw;width:50%;margin-bottom:3cqw}
+
+.chapter-row{display:grid;grid-template-columns:2.6cqw 1fr;gap:1.3cqw;align-items:center;text-align:left;color:var(--muted);padding:.45cqw 0}
+
+.chapter-row small{font:1cqw ui-monospace,monospace}
+.chapter-row span{font-size:1.5cqw}
+.chapter-row.selected{color:var(--ink)}
+.chapter-row.selected span{text-decoration:underline;text-underline-offset:.4cqw}
+
+.chapter-title{margin-top:auto}
+.chapter-title h1{font-size:5.6cqw;line-height:1.3}
+.type-section .subhead{font-size:1.5cqw;margin-top:1.4cqw}
+
+.type-rows .content{display:grid;grid-template-columns:40% 54%;gap:6%;align-items:start}
+.type-rows .lead{max-width:100%;font-size:1.5cqw;margin-top:2cqw}
+
+.rows{display:flex;flex-direction:column;gap:0;margin-top:0;height:100%}
+.rows .item{display:grid;grid-template-columns:2.3cqw 1fr;gap:0 1.3cqw;padding:1.5cqw 0;flex:1}
+
+.rows .item-index{font-size:1cqw;grid-row:1/3;margin:0;padding:0}
+.rows h3{font-size:2.1cqw}
+.rows p{grid-column:2;font-size:1.45cqw;margin-top:.9cqw}
+.rows .item:last-child{border-bottom:1px solid var(--line)}
+
+.type-dialogue h1{font-size:4.8cqw;line-height:1.35;max-width:100%;border-left:.2cqw solid var(--accent);padding-left:2.3cqw}
+.type-dialogue .lead{font-size:1.45cqw}
+
+.dialogue{margin-top:auto;flex:0 0 auto;min-height:14cqw;padding-top:3.5cqw}
+.dialogue .item-index{display:none}
+.dialogue .item{min-height:10cqw}
+.dialogue h3{font-size:1.9cqw}
+.dialogue p{font-size:1.4cqw}
+
+.gallery-single .content{display:grid;grid-template-columns:36% 58%;gap:6%;align-items:center}
+.gallery-single .lead{max-width:100%;font-size:1.5cqw;margin-top:2cqw}
+.gallery-single .gallery{display:block;flex:none;margin:0;min-height:0}
+
+.gallery-single .media{height:28cqw;background:transparent}
+.gallery-single .media img{object-fit:contain}
+.gallery-single figcaption h3{font-size:1.7cqw}
+.gallery-single figcaption p{font-size:1.2cqw}
+.gallery-single .credit{font-size:.95cqw}
+
+.comparison .item,.comparison .item:last-child{background:var(--soft);color:var(--ink)}
+.comparison .item:last-child p,.comparison .item:last-child .item-index{color:var(--muted);opacity:1}
+
+:fullscreen .toolbar,:fullscreen .navigation,:fullscreen #progress{display:none}
+:fullscreen #stage{height:100dvh;padding:0}
+:fullscreen .slide{width:min(100vw,calc(100dvh*16/9))}
+
+dialog{border:1px solid #7776;border-radius:8px;background:#f8f8f5;color:#202329;width:min(94vw,1020px);max-height:86dvh;padding:24px;box-shadow:0 20px 100px #0006}
+dialog::backdrop{background:#080b10bb}
+dialog header{display:flex;align-items:center;justify-content:space-between;gap:25px;margin-bottom:24px}
+dialog h2{font-size:22px}
+dialog header button{font-size:30px}
+dialog p,dialog li{font-size:16px;line-height:1.7}
+.overview-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.overview-item{border:1px solid #d1d2cc;min-height:115px;padding:18px;text-align:left;display:flex;flex-direction:column;gap:12px}
+.overview-item span,.overview-item small{color:#626860;font-size:11px}
+.overview-item strong{font-size:16px;line-height:1.4}
+#notes{width:min(92vw,720px)}
+#notes-body{max-height:60dvh;overflow:auto}
+#toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);padding:14px 20px;background:#fff;color:#111;font-size:14px;border:1px solid #ddd;z-index:5}
+
+@media(max-width:760px){.toolbar,.navigation{padding:0 12px;gap:8px}
+.toolbar{height:52px}
+.deck-name{font-size:11px;max-width:40%}
+.toolbar button{padding:8px;font-size:11px}
+.toolbar #replay span{display:none}
+.keys{display:none}
+#stage{height:calc(100dvh - 102px);padding:7px 10px;place-items:start center}
+.slide{width:100%;aspect-ratio:auto;min-height:calc(100dvh - 116px);overflow:visible;padding:80px 26px 70px}
+.slide .content{position:static;display:flex;flex-direction:column;inset:auto;min-height:480px}
+.slide-head,.slide-foot{left:26px;right:26px;font-size:10px}
+.slide-head{top:27px}
+.slide-foot{bottom:25px;font-size:9px}
+.slide h1,.type-cover h1,.type-statement h1,.theme-blue-note .type-statement h1,.theme-paper-grid .type-cover h1,.theme-midnight .type-cover h1,.theme-mono-signal .type-cover h1,.theme-acid-notes .type-cover h1{font-size:38px;line-height:1.3;max-width:100%}
+.slide h2{font-size:27px;line-height:1.35}
+.slide h3{font-size:21px;line-height:1.4}
+.slide p{font-size:16px;line-height:1.7}
+.hero,.type-cover .hero,.type-end .hero{margin:auto 0;max-width:100%;padding:45px 0}
+.slide .lead,.slide .subhead{max-width:100%;margin-top:24px}
+.signature{position:static!important;align-self:flex-end;transform:none;gap:8px!important;margin-top:20px}
+.signature i{width:10px;height:15px}
+.signature i:nth-child(2){height:30px}
+.signature i:nth-child(3){height:22px}
+.theme-midnight .signature i{width:24px;height:24px;margin:0!important}
+.slide .signature i:nth-child(4){height:10px}
+.contents-intro,.theme-mono-signal .contents-intro{display:flex;flex-direction:column;gap:10px}
+.contents-intro .lead,.theme-mono-signal .contents-intro .lead{font-size:16px}
+.toc,.theme-mono-signal .toc{display:flex;flex-direction:column;margin-top:30px;gap:0}
+.toc-row{grid-template-columns:30px 1fr 20px;gap:12px;padding:20px 0}
+.toc-row small{font-size:11px}
+.toc-row strong{font-size:19px}
+.toc-row>span{font-size:20px}
+.items{grid-template-columns:1fr;gap:30px;margin-top:35px;flex:none}
+.item{padding-top:20px;min-height:155px}
+.item-index,.theme-paper-grid .columns .item-index{font-size:16px;margin-bottom:18px}
+.columns .item-index,.theme-acid-notes .columns .item-index{font-size:36px}
+.slide .item p{font-size:16px;margin-top:12px}
+.metric-value{font-size:70px;margin:20px 0}
+.metric-value small{font-size:16px}
+.metrics h3{margin:0}
+.timeline{margin-top:30px;padding-left:20px}
+.timeline .item{padding-top:5px;min-height:150px}
+.timeline .item:before{left:-20px;top:13px;width:9px;height:9px}
+.timeline .item:not(:last-child):after{left:-16px;top:22px;height:calc(100% + 30px);width:1px}
+.time-label{font-size:33px;margin-bottom:12px;padding:0}
+.process .item{padding:25px;min-height:210px}
+.process .item-index{font-size:38px}
+.process .item:not(:last-child):after{content:'↓';top:auto;right:50%;bottom:-28px;font-size:24px}
+.comparison .item{padding:26px}
+.comparison .item-index{font-size:14px;margin-bottom:20px}
+.comparison h3{font-size:26px}
+.ratio-intro .basis{margin-top:25px}
+.ratio-visual{margin-top:40px}
+.ratio-value{font-size:100px;margin-bottom:28px}
+.ratio-visual p{margin-top:25px}
+.ratio-track{height:28px}
+.dot-matrix{gap:10px;max-width:100%}
+.matrix-dot{width:13px;height:13px}
+.chart-wrap{margin-top:30px;overflow:auto;flex:none;padding-bottom:10px}
+.chart-svg{width:680px;max-width:none;height:290px;max-height:none;flex:none}
+.slide .axis-unit,.slide .basis,.slide .caption{font-size:13px}
+.slide .caption{margin-top:12px}
+.gallery{grid-template-columns:1fr;gap:35px;flex:none;margin-top:35px}
+.media{height:210px}
+.gallery figcaption{padding-top:20px}
+.gallery figcaption p{font-size:15px;margin-top:8px}
+.gallery figcaption .credit{font-size:12px}
+.theme-acid-notes .type-statement .hero{border-left:5px solid var(--accent);padding-left:20px}
+.theme-mono-signal .slide-foot{padding-top:10px}
+.overview-grid{grid-template-columns:1fr}
+dialog{padding:20px}
+dialog header h2{font-size:20px}
+}
+
+
+/* Keep new layouts readable rather than shrinking an entire slide on phones. */
+@media(max-width:760px){
+ .theme-blue-note h2{font-size:29px}
+.theme-blue-note .type-cover h1,.theme-blue-note .type-statement h1,.theme-blue-note .type-end h1,.chapter-title h1{font-size:37px;line-height:1.35}
+
+ .theme-paper-grid .type-statement h1{font-size:34px}
+.theme-blue-note .slide-head,.theme-blue-note .slide-foot{left:26px;right:26px;font-size:10px}
+.theme-blue-note .slide-head{top:25px}
+.theme-blue-note .slide-foot{bottom:25px}
+
+ .chapter-index{width:100%;gap:3px;margin:0 0 65px}
+.chapter-row{grid-template-columns:24px 1fr;gap:16px;padding:7px 0}
+.chapter-row small{font-size:12px}
+.chapter-row span{font-size:16px}
+.chapter-row.selected span{text-underline-offset:4px}
+
+ .type-section .subhead{font-size:16px;margin-top:20px}
+.type-section .content{min-height:480px}
+
+ .type-rows .content,.gallery-single .content{display:flex;flex-direction:column;align-items:stretch;gap:0}
+.type-rows .lead,.gallery-single .lead{font-size:16px;margin-top:22px}
+
+ .rows{margin-top:35px;height:auto;gap:0}
+.rows .item{grid-template-columns:22px 1fr;gap:0 10px;padding:22px 0;flex:none;min-height:0}
+.rows .item-index{font-size:12px;padding-top:5px}
+.rows h3{font-size:22px}
+.rows p{font-size:16px;margin-top:12px}
+
+ .type-dialogue h1{font-size:30px;line-height:1.4;border-left-width:2px;padding-left:18px}
+.type-dialogue .lead{font-size:16px}
+.dialogue{margin-top:35px;padding-top:0;gap:24px;min-height:0}
+.dialogue .item{min-height:0}
+.dialogue h3{font-size:22px}
+.dialogue p{font-size:16px}
+
+ .gallery-single .gallery{margin-top:35px}
+.gallery-single .media{height:250px}
+.gallery-single figcaption h3{font-size:22px}
+.gallery-single figcaption p{font-size:16px}
+.gallery-single .credit{font-size:12px}
+
+ .theme-mono-signal .slide-foot,.theme-midnight .slide-foot{padding-top:10px}
+.theme-acid-notes .slide-head>span:first-child:before{width:6px;height:6px;margin-right:10px}
+
+ :fullscreen .slide{width:100%;min-height:100dvh}
+
+}
+
+
+@media(max-width:760px){
+.theme-acid-notes .signature{gap:12px;bottom:0;right:0}
+.theme-acid-notes .signature i,.theme-acid-notes .signature i:nth-child(2),.theme-acid-notes .signature i:nth-child(3),.theme-acid-notes .signature i:nth-child(4){width:6px;height:6px}
+.theme-acid-notes .signature i:nth-child(2){margin-bottom:15px}.theme-acid-notes .signature i:nth-child(3){margin-top:15px}
+}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important}
+}
+
+@media print{@page{size:landscape;margin:0}
+html,body{background:white}
+body{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.toolbar,.navigation,#progress,dialog,#toast{display:none!important}
+#stage{display:block;padding:0;height:auto;overflow:visible}
+.slide,.slide[hidden]{display:flex!important;width:100vw;height:100vh;min-height:0;aspect-ratio:16/9;break-after:page;break-inside:avoid;overflow:hidden;padding:0}
+.slide:last-child{break-after:auto}
+.slide .content{position:absolute;inset:15% 6% 12%;min-height:0}
+.slide-head{top:5%}
+.slide-foot{bottom:5%}
+}
+
+</style></head>
+<body class="theme-blue-note">
+<header class="toolbar"><span class="deck-name">把复杂问题，讲清楚</span><div><button id="replay" title="Replay / 重播 (R)">↻<span> 重播</span></button><button id="overview-open" title="Overview / 总览 (O)">总览</button><button id="notes-open" title="Notes / 提示 (N)">提示</button><button id="fullscreen" title="Fullscreen / 全屏 (F)">全屏</button></div></header>
+<main id="stage" tabindex="-1"><article class="slide type-cover tone-accent" id="slide-1" data-index="0" data-motion="words" data-motion-state="idle" aria-label="1. 把复杂问题，
+讲清楚。" ><div class="slide-head"><span>A PRACTICAL GUIDE</span><span>01 / 17</span></div><div class="content"><div class="hero"><h1><span class="line">把复杂问题，</span><span class="line">讲清楚。</span></h1><p class="subhead">从一个问题，到一场有用的分享。</p></div><div class="signature" aria-hidden="true"><i></i><i></i><i></i><i></i></div></div><footer class="slide-foot"><span>SHARING NOTES / 示例内容</span><span>01</span></footer><template class="notes-template"><p class="">本示例使用通用内容与程序绘制的几何图形。涉及比例或趋势的页面均为演示数据。</p></template></article><article class="slide type-contents tone-dark" id="slide-2" data-index="1" data-motion="list" data-motion-state="idle" aria-label="2. 今天，
+走过四步。" hidden><div class="slide-head"><span>READING MAP</span><span>02 / 17</span></div><div class="content"><div class="contents-intro"><h2><span class="line">今天，</span><span class="line">走过四步。</span></h2><p class="lead">先确定听众需要带走什么，再组织证据，最后检查现场能否看懂。</p></div><nav class="toc" aria-label="Contents"><button class="toc-row animate-item" data-go="2"><small>01</small><strong>找到一个清楚的问题</strong><span aria-hidden="true">↗</span></button><button class="toc-row animate-item" data-go="3"><small>02</small><strong>把内容排成阅读顺序</strong><span aria-hidden="true">↗</span></button><button class="toc-row animate-item" data-go="9"><small>03</small><strong>用证据支撑表达</strong><span aria-hidden="true">↗</span></button><button class="toc-row animate-item" data-go="16"><small>04</small><strong>留下一个可执行的动作</strong><span aria-hidden="true">↗</span></button></nav></div><footer class="slide-foot"><span>SHARING NOTES / 示例内容</span><span>02</span></footer><template class="notes-template"><p class="">—</p></template></article><article class="slide type-statement tone-dark" id="slide-3" data-index="2" data-motion="words" data-motion-state="idle" aria-label="3. 一页，
+只推进一个问题。" hidden><div class="slide-head"><span>01 / QUESTION</span><span>03 / 17</span></div><div class="content"><div class="hero"><h1><span class="line">一页，</span><span class="line">只推进<em class="highlight">一个问题</em>。</span></h1></div><div class="signature" aria-hidden="true"><i></i><i></i><i></i><i></i></div></div><footer class="slide-foot"><span>SHARING NOTES / 示例内容</span><span>03</span></footer><template class="notes-template"><p class="">标题给方向，证据给理由。</p></template></article><article class="slide type-columns tone-light" id="slide-4" data-index="3" data-motion="list" data-motion-state="idle" aria-label="4. 内容先于装饰。" hidden><div class="slide-head"><span>02 / STRUCTURE</span><span>04 / 17</span></div><div class="content"><header class="content-heading"><h2><span class="line"><em class="highlight">内容</em>先于装饰。</span></h2></header><div class="items columns" style="--count:3"><section class="item animate-item"><div class="item-index">01</div><h3>结论能被复述</h3><p class="">把主要意思写成完整的一句话，避免只留下抽象名词。</p></section><section class="item animate-item"><div class="item-index">02</div><h3>关系可以看见</h3><p class="">先后用时间轴，并列用分栏，比例才使用面积或长度。</p></section><section class="item animate-item"><div class="item-index">03</div><h3>细节有地方安放</h3><p class="">把背景和来源放进讲者提示，让主画面保留阅读空间。</p></section></div></div><footer class="slide-foot"><span>SHARING NOTES / 示例内容</span><span>04</span></footer><template class="notes-template"><p class="">—</p></template></article><article class="slide type-metrics tone-light" id="slide-5" data-index="4" data-motion="metrics" data-motion-state="idle" aria-label="5. 把常用能力，
+收进一个工具箱。" hidden><div class="slide-head"><span>THE TOOLKIT</span><span>05 / 17</span></div><div class="content"><header class="content-heading"><h2><span class="line">把常用能力，</span><span class="line">收进一个工具箱。</span></h2><p class="lead">以下数字描述这个开源演示工具包本身。</p></header><div class="items metrics" style="--count:3"><section class="item animate-item"><div class="metric-value">15<small>种</small></div><h3>内容版式</h3><p class="">覆盖观点、方法、流程、比例、图表与案例。</p></section><section class="item animate-item"><div class="metric-value">5<small>套</small></div><h3>视觉预设</h3><p class="">统一内容结构，各自保留色彩和排版特征。</p></section><section class="item animate-item"><div class="metric-value">0<small>项</small></div><h3>外部运行依赖</h3><p class="">生成仅用 Python 标准库，成稿在浏览器中运行。</p></section></div></div><footer class="slide-foot"><span>SHARING NOTES / 示例内容</span><span>05</span></footer><template class="notes-template"><p class="">—</p></template></article><article class="slide type-ratio tone-light" id="slide-6" data-index="5" data-motion="metrics" data-motion-state="idle" aria-label="6. 有比例，
+才画比例。" hidden><div class="slide-head"><span>03 / EVIDENCE</span><span>06 / 17</span></div><div class="content"><div class="ratio-intro"><h2><span class="line">有比例，</span><span class="line">才画比例。</span></h2><p class="lead">每个点都代表相同的份额，图形和数字一起表达事实。</p><p class="basis">虚构演示数据；不对应真实团队、调查或业务结果。</p></div><div class="ratio-visual"><div class="ratio-value">80<small>%</small></div><div class="dot-matrix" role="img" aria-label="8 / 10; 80%"><i class="matrix-dot filled" aria-hidden="true"></i><i class="matrix-dot filled" aria-hidden="true"></i><i class="matrix-dot filled" aria-hidden="true"></i><i class="matrix-dot filled" aria-hidden="true"></i><i class="matrix-dot filled" aria-hidden="true"></i><i class="matrix-dot filled" aria-hidden="true"></i><i class="matrix-dot filled" aria-hidden="true"></i><i class="matrix-dot filled" aria-hidden="true"></i><i class="matrix-dot filled" aria-hidden="true"></i><i class="matrix-dot filled" aria-hidden="true"></i><i class="matrix-dot filled" aria-hidden="true"></i><i class="matrix-dot filled" aria-hidden="true"></i><i class="matrix-dot filled" aria-hidden="true"></i><i class="matrix-dot filled" aria-hidden="true"></i><i class="matrix-dot filled" aria-hidden="true"></i><i class="matrix-dot filled" aria-hidden="true"></i><i class="matrix-dot empty" aria-hidden="true"></i><i class="matrix-dot empty" aria-hidden="true"></i><i class="matrix-dot empty" aria-hidden="true"></i><i class="matrix-dot empty" aria-hidden="true"></i></div><p class="">示意：10 项中完成了 8 项。</p></div></div><footer class="slide-foot"><span>SHARING NOTES / 示例内容</span><span>06</span></footer><template class="notes-template"><p class="">20 个点中有 16 个实心。更换比例后，生成器检查总点数是否能准确表达；不能整点表达时改用比例条。</p></template></article><article class="slide type-timeline tone-light" id="slide-7" data-index="6" data-motion="timeline" data-motion-state="idle" aria-label="7. 让听众知道，事情怎样发生。" hidden><div class="slide-head"><span>04 / SEQUENCE</span><span>07 / 17</span></div><div class="content"><header class="content-heading"><h2><span class="line">让听众知道，事情怎样发生。</span></h2></header><div class="items timeline" style="--count:4"><section class="item animate-item"><div class="time-label">准备</div><h3>收集事实</h3><p class="">先看原始材料，再写判断。</p></section><section class="item animate-item"><div class="time-label">组织</div><h3>确认关系</h3><p class="">区分时间、因果和普通并列。</p></section><section class="item animate-item"><div class="time-label">呈现</div><h3>逐步展开</h3><p class="">只让本次需要关注的部分动起来。</p></section><section class="item animate-item"><div class="time-label">复查</div><h3>回到现场</h3><p class="">看字号、断行、对比和操作。</p></section></div></div><footer class="slide-foot"><span>SHARING NOTES / 示例内容</span><span>07</span></footer><template class="notes-template"><p class="">—</p></template></article><article class="slide type-process tone-light" id="slide-8" data-index="7" data-motion="timeline" data-motion-state="idle" aria-label="8. 稳定的结果，来自可重复的步骤。" hidden><div class="slide-head"><span>05 / WORKFLOW</span><span>08 / 17</span></div><div class="content"><header class="content-heading"><h2><span class="line">稳定的结果，来自可重复的步骤。</span></h2></header><div class="items process" style="--count:3"><section class="item animate-item"><div class="item-index">01</div><h3>填写内容</h3><p class="">选择页型，输入文字、数字、说明与来源。</p></section><section class="item animate-item"><div class="item-index">02</div><h3>生成演示</h3><p class="">让布局和动画由同一套规则完成。</p></section><section class="item animate-item"><div class="item-index">03</div><h3>检查画面</h3><p class="">过密就拆页，不用更小字号掩盖问题。</p></section></div></div><footer class="slide-foot"><span>SHARING NOTES / 示例内容</span><span>08</span></footer><template class="notes-template"><p class="">—</p></template></article><article class="slide type-comparison tone-light" id="slide-9" data-index="8" data-motion="list" data-motion-state="idle" aria-label="9. 把难读，变成容易跟上。" hidden><div class="slide-head"><span>06 / EDITING</span><span>09 / 17</span></div><div class="content"><header class="content-heading"><h2><span class="line">把难读，变成容易跟上。</span></h2></header><div class="items comparison" style="--count:2"><section class="item animate-item"><div class="item-index">01</div><h3>信息堆叠</h3><p class="">一页混入背景、观点、多个案例和结论。<br>观众不知道应先看哪里。</p></section><section class="item animate-item"><div class="item-index">02</div><h3>一层一层讲</h3><p class="">先说观点，再给一个证据。<br>补充细节放入提示或后续页面。</p></section></div></div><footer class="slide-foot"><span>SHARING NOTES / 示例内容</span><span>09</span></footer><template class="notes-template"><p class="">—</p></template></article><article class="slide type-chart tone-light" id="slide-10" data-index="9" data-motion="draw" data-motion-state="idle" aria-label="10. 让变化能被辨认。" hidden><div class="slide-head"><span>07 / DATA</span><span>10 / 17</span></div><div class="content"><header class="content-heading"><h2><span class="line">让变化能被辨认。</span></h2><p class="lead">保留坐标、单位与样本说明，画面才有解释力。</p></header><div class="chart-wrap"><p class="axis-unit">已完成项 / 个</p><svg class="chart-svg" viewBox="0 0 940 315" role="img" aria-label="让变化能被辨认。"><g class="chart-grid"><line x1="60" x2="880" y1="250.0" y2="250.0"/><text x="40" y="256.0" text-anchor="end">0</text><line x1="60" x2="880" y1="197.5" y2="197.5"/><text x="40" y="203.5" text-anchor="end">2</text><line x1="60" x2="880" y1="145.0" y2="145.0"/><text x="40" y="151.0" text-anchor="end">4</text><line x1="60" x2="880" y1="92.5" y2="92.5"/><text x="40" y="98.5" text-anchor="end">6</text><line x1="60" x2="880" y1="40.0" y2="40.0"/><text x="40" y="46.0" text-anchor="end">8</text></g><path class="chart-line" d="M60.0,171.25L265.0,118.75L470.0,145.0L675.0,66.25L880.0,40.0"/><g class="chart-points"><circle cx="60.0" cy="171.25" r="5"/><text class="data-value" x="60.0" y="157.25" text-anchor="middle">3</text><circle cx="265.0" cy="118.75" r="5"/><text class="data-value" x="265.0" y="104.75" text-anchor="middle">5</text><circle cx="470.0" cy="145.0" r="5"/><text class="data-value" x="470.0" y="131.0" text-anchor="middle">4</text><circle cx="675.0" cy="66.25" r="5"/><text class="data-value" x="675.0" y="52.25" text-anchor="middle">7</text><circle cx="880.0" cy="40.0" r="5"/><text class="data-value" x="880.0" y="26.0" text-anchor="middle">8</text></g><g class="chart-labels"><text x="60.0" y="290" text-anchor="middle">第1轮</text><text x="265.0" y="290" text-anchor="middle">第2轮</text><text x="470.0" y="290" text-anchor="middle">第3轮</text><text x="675.0" y="290" text-anchor="middle">第4轮</text><text x="880.0" y="290" text-anchor="middle">第5轮</text></g></svg></div><p class="basis">虚构演示序列：各轮等间隔，仅用于展示图表能力。</p><p class="caption">数据不足时，不补画不存在的趋势。</p></div><footer class="slide-foot"><span>SHARING NOTES / 示例内容</span><span>10</span></footer><template class="notes-template"><p class="">本图只支持等间隔序列；不规则日期需在独立图表工具中准确绘制后作为有来源的图像使用。</p></template></article><article class="slide type-gallery tone-light" id="slide-11" data-index="10" data-motion="static" data-motion-state="idle" aria-label="11. 图形，帮助解释结构。" hidden><div class="slide-head"><span>08 / EXAMPLES</span><span>11 / 17</span></div><div class="content"><header class="content-heading"><h2><span class="line">图形，帮助解释结构。</span></h2><p class="lead">下列示意由工具包直接绘制，没有使用网络照片或第三方商标。</p></header><div class="gallery" style="--count:3"><figure><div class="media"><svg class="art" viewBox="0 0 480 280" aria-hidden="true"><g><rect x="64" y="45" width="290" height="42"/><rect x="88" y="105" width="290" height="42"/><rect x="112" y="165" width="290" height="42"/><path d="M64 110H35V230H402"/></g></svg></div><figcaption><h3>分层</h3><p class="">把复杂对象拆成可讨论的部分。</p></figcaption></figure><figure><div class="media"><svg class="art" viewBox="0 0 480 280" aria-hidden="true"><g><path d="M45 210H150V125H270V55H435"/><circle cx="45" cy="210" r="12"/><circle cx="150" cy="125" r="12"/><circle cx="270" cy="55" r="12"/><circle cx="435" cy="55" r="12"/></g></svg></div><figcaption><h3>路径</h3><p class="">用转折与节点说明推进过程。</p></figcaption></figure><figure><div class="media"><svg class="art" viewBox="0 0 480 280" aria-hidden="true"><g><rect x="55" y="38" width="370" height="205"/><path d="M55 82H425M190 82V243M220 115H390M220 145H350M220 175H375M220 205H310"/><circle cx="78" cy="60" r="3"/><circle cx="94" cy="60" r="3"/></g></svg></div><figcaption><h3>界面</h3><p class="">为具体信息建立稳定的位置。</p></figcaption></figure></div></div><footer class="slide-foot"><span>SHARING NOTES / 示例内容</span><span>11</span></footer><template class="notes-template"><p class="">—</p></template></article><article class="slide type-statement tone-dark" id="slide-12" data-index="11" data-motion="words" data-motion-state="idle" aria-label="12. 让设计，
+为理解留出空间。" hidden><div class="slide-head"><span>TAKEAWAY</span><span>12 / 17</span></div><div class="content"><div class="hero"><h1><span class="line">让设计，</span><span class="line">为理解留出空间。</span></h1></div><div class="signature" aria-hidden="true"><i></i><i></i><i></i><i></i></div></div><footer class="slide-foot"><span>SHARING NOTES / 示例内容</span><span>12</span></footer><template class="notes-template"><p class="">信息足够清楚时，画面可以很安静。</p></template></article><article class="slide type-section tone-dark" id="slide-13" data-index="12" data-motion="list" data-motion-state="idle" aria-label="13. 现在，
+开始一次试讲。" hidden><div class="slide-head"><span></span><span>13 / 17</span></div><div class="content"><nav class="chapter-index" aria-label="Chapter navigation"><button class="chapter-row animate-item " data-go="2" ><small>01</small><span>确定问题</span></button><button class="chapter-row animate-item " data-go="9" ><small>02</small><span>组织证据</span></button><button class="chapter-row animate-item selected" data-go="12" aria-current="step"><small>03</small><span>现场试讲</span></button><button class="chapter-row animate-item " data-go="16" ><small>04</small><span>带走行动</span></button></nav><div class="chapter-title"><h1><span class="line">现在，</span><span class="line">开始一次试讲。</span></h1></div></div><footer class="slide-foot"><span>SHARING NOTES / 示例内容</span><span>13</span></footer><template class="notes-template"><p class="">章节页只标记讲述进入新的阶段，不承担完整解释。</p></template></article><article class="slide type-dialogue tone-light" id="slide-14" data-index="13" data-motion="words" data-motion-state="idle" aria-label="14. “听完以后，
+你记住了哪一句？”" hidden><div class="slide-head"><span>ASK ONE QUESTION</span><span>14 / 17</span></div><div class="content"><header class="content-heading"><h1><span class="line">“听完以后，</span><span class="line">你记住了<em class="highlight">哪一句</em>？”</span></h1></header><div class="items dialogue" style="--count:3"><section class="item animate-item"><div class="item-index">01</div><h3>先听反馈</h3><p class="">请对方直接复述，不提前提示标准答案。</p></section><section class="item animate-item"><div class="item-index">02</div><h3>再看差异</h3><p class="">比较你想传达的重点与对方实际记住的内容。</p></section><section class="item animate-item"><div class="item-index">03</div><h3>最后修改</h3><p class="">把难记住的部分缩短，或换一个更贴近经验的例子。</p></section></div></div><footer class="slide-foot"><span>SHARING NOTES / 示例内容</span><span>14</span></footer><template class="notes-template"><p class="">这是试讲的提问示例，不是要求所有分享必须安排现场互动。</p></template></article><article class="slide type-rows tone-light" id="slide-15" data-index="14" data-motion="list" data-motion-state="idle" aria-label="15. 每一次修改，
+都对应一个问题。" hidden><div class="slide-head"><span></span><span>15 / 17</span></div><div class="content"><header class="content-heading"><h2><span class="line">每一次修改，</span><span class="line">都对应<em class="highlight">一个问题</em>。</span></h2><p class="lead">检查信息是否被理解，再决定需要删减、拆页还是换一种表达。</p></header><div class="items rows" style="--count:3"><section class="item animate-item"><div class="item-index">01</div><h3>主张不清楚</h3><p class="">把名词式标题改为一个有依据的完整判断。</p></section><section class="item animate-item"><div class="item-index">02</div><h3>证据不匹配</h3><p class="">换成能够支持当前观点的材料，注明必要口径。</p></section><section class="item animate-item"><div class="item-index">03</div><h3>画面过于重复</h3><p class="">根据关系选择条目、流程或大图，不为变化而装饰。</p></section></div></div><footer class="slide-foot"><span>SHARING NOTES / 示例内容</span><span>15</span></footer><template class="notes-template"><p class="">—</p></template></article><article class="slide type-gallery tone-light gallery-single" id="slide-16" data-index="15" data-motion="static" data-motion-state="idle" aria-label="16. 一个图，
+只解释一种结构。" hidden><div class="slide-head"><span></span><span>16 / 17</span></div><div class="content"><header class="content-heading"><h2><span class="line">一个图，</span><span class="line">只解释<em class="highlight">一种结构</em>。</span></h2><p class="lead">素材应该帮助观众理解，不只是填满留白。</p></header><div class="gallery" style="--count:1"><figure><div class="media"><svg class="art" viewBox="0 0 480 280" aria-hidden="true"><g><rect x="64" y="45" width="290" height="42"/><rect x="88" y="105" width="290" height="42"/><rect x="112" y="165" width="290" height="42"/><path d="M64 110H35V230H402"/></g></svg></div><figcaption><h3>结构示意</h3><p class="">分层图解释组成；真实界面、照片或作品应使用有来源的原始素材。</p><p class="credit">工具包原创几何示意；非真实产品界面</p></figcaption></figure></div></div><footer class="slide-foot"><span>SHARING NOTES / 示例内容</span><span>16</span></footer><template class="notes-template"><p class="">—</p></template></article><article class="slide type-end tone-accent" id="slide-17" data-index="16" data-motion="static" data-motion-state="idle" aria-label="17. 带着问题来，
+带着行动走。" hidden><div class="slide-head"><span>NEXT STEP</span><span>17 / 17</span></div><div class="content"><div class="hero"><h1><span class="line">带着问题来，</span><span class="line">带着行动走。</span></h1><p class="subhead">写下你下一次分享最想讲清楚的那句话。</p></div><div class="signature" aria-hidden="true"><i></i><i></i><i></i><i></i></div></div><footer class="slide-foot"><span>SHARING NOTES / 示例内容</span><span>17</span></footer><template class="notes-template"><p class="">—</p></template></article></main>
+<nav class="navigation" aria-label="Slide navigation"><span class="keys">← → 翻页 · R 重播</span><span id="counter" aria-live="polite"></span><div><button id="prev" aria-label="Previous slide / 上一页">←</button><button id="next" aria-label="Next slide / 下一页">→</button></div></nav><div id="progress" aria-hidden="true"></div>
+<dialog id="overview"><header><h2>页面总览 / Overview</h2><button data-close aria-label="Close / 关闭">×</button></header><div class="overview-grid"><button data-go="0" class="overview-item"><span>01</span><strong>把复杂问题， 讲清楚。</strong><small>cover</small></button><button data-go="1" class="overview-item"><span>02</span><strong>今天， 走过四步。</strong><small>contents</small></button><button data-go="2" class="overview-item"><span>03</span><strong>一页， 只推进一个问题。</strong><small>statement</small></button><button data-go="3" class="overview-item"><span>04</span><strong>内容先于装饰。</strong><small>columns</small></button><button data-go="4" class="overview-item"><span>05</span><strong>把常用能力， 收进一个工具箱。</strong><small>metrics</small></button><button data-go="5" class="overview-item"><span>06</span><strong>有比例， 才画比例。</strong><small>ratio</small></button><button data-go="6" class="overview-item"><span>07</span><strong>让听众知道，事情怎样发生。</strong><small>timeline</small></button><button data-go="7" class="overview-item"><span>08</span><strong>稳定的结果，来自可重复的步骤。</strong><small>process</small></button><button data-go="8" class="overview-item"><span>09</span><strong>把难读，变成容易跟上。</strong><small>comparison</small></button><button data-go="9" class="overview-item"><span>10</span><strong>让变化能被辨认。</strong><small>chart</small></button><button data-go="10" class="overview-item"><span>11</span><strong>图形，帮助解释结构。</strong><small>gallery</small></button><button data-go="11" class="overview-item"><span>12</span><strong>让设计， 为理解留出空间。</strong><small>statement</small></button><button data-go="12" class="overview-item"><span>13</span><strong>现在， 开始一次试讲。</strong><small>section</small></button><button data-go="13" class="overview-item"><span>14</span><strong>“听完以后， 你记住了哪一句？”</strong><small>dialogue</small></button><button data-go="14" class="overview-item"><span>15</span><strong>每一次修改， 都对应一个问题。</strong><small>rows</small></button><button data-go="15" class="overview-item"><span>16</span><strong>一个图， 只解释一种结构。</strong><small>gallery</small></button><button data-go="16" class="overview-item"><span>17</span><strong>带着问题来， 带着行动走。</strong><small>end</small></button></div></dialog>
+<dialog id="notes"><header><h2>讲者提示 / Notes</h2><button data-close aria-label="Close / 关闭">×</button></header><div id="notes-body"></div></dialog>
+<div id="toast" role="status" hidden></div>
+<script>(() => {
+  'use strict';
+  const $ = s => document.querySelector(s);
+  const slides = [...document.querySelectorAll('.slide')];
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+  let current = -1, epoch = 0, animations = [], returnFocus = null, timer;
+  function cancel() {
+    epoch += 1;
+    animations.forEach(a => a.cancel());
+    animations = [];
+    slides.forEach(s => s.dataset.motionState = 'idle');
+  }
+  function play(slide, direction = 1) {
+    cancel();
+    const ticket = epoch;
+    const mode = slide.dataset.motion;
+    $('#replay').disabled = mode === 'static' || reduce.matches;
+    if (mode === 'static' || reduce.matches || !Element.prototype.animate) return;
+    const add = (el, frames, delay = 0, duration = 650) => {
+      const a = el.animate(frames, {duration, delay, easing:'cubic-bezier(.18,.72,.2,1)', fill:'backwards'});
+      animations.push(a);
+    };
+    const targets = mode === 'words' ? [...slide.querySelectorAll('h1 .line,.subhead')]
+      : [...slide.querySelectorAll('.animate-item')];
+    targets.forEach((el, i) => {
+      const move = mode === 'words' || mode === 'timeline' ? `translateX(${direction * 38}px)` : 'translateY(18px)';
+      const frames = mode === 'metrics' ? [{opacity:0,transform:'translateY(22px)'},{opacity:1,transform:'translateY(-3px)',offset:.72},{opacity:1,transform:'none'}]
+        : [{opacity:0,transform:move},{opacity:1,transform:'none'}];
+      add(el, frames, i * Math.min(90, 450 / Math.max(targets.length,1)));
+    });
+    if (slide.querySelector('.ratio-value')) add(slide.querySelector('.ratio-value'), [{opacity:0,transform:'translateY(15px)'},{opacity:1,transform:'none'}]);
+    slide.querySelectorAll('.matrix-dot').forEach((dot,i)=>add(dot,[{opacity:0,transform:'translateY(6px)'},{opacity:1,transform:'none'}],100+i*5,400));
+    slide.querySelectorAll('.ratio-fill').forEach(el=>add(el,[{clipPath:'inset(0 100% 0 0)'},{clipPath:'inset(0 0 0 0)'}],100,800));
+    if (mode === 'draw') slide.querySelectorAll('.chart-line').forEach(path => {
+      const length=path.getTotalLength();
+      add(path,[{strokeDasharray:`${length} ${length}`,strokeDashoffset:length},{strokeDasharray:`${length} ${length}`,strokeDashoffset:0}],0,1000);
+    });
+    if (!animations.length) return;
+    slide.dataset.motionState = 'running';
+    Promise.allSettled(animations.map(a => a.finished)).then(() => {
+      if (ticket !== epoch) return;
+      animations.forEach(a=>a.cancel()); animations=[];
+      slide.dataset.motionState='idle';
+    });
+  }
+  function navigate(index, direction = 1) {
+    index=Math.max(0,Math.min(slides.length-1,index));
+    if(index===current)return;
+    cancel(); current=index;
+    slides.forEach((s,i)=>s.hidden=i!==current);
+    $('#counter').textContent=`${String(current+1).padStart(2,'0')} / ${String(slides.length).padStart(2,'0')}`;
+    $('#prev').disabled=current===0; $('#next').disabled=current===slides.length-1;
+    $('#progress').style.width=`${(current+1)/slides.length*100}%`;
+    $('#stage').scrollTop=0;
+    const hash=`#${current+1}`;
+    if(location.hash!==hash)location.hash=hash;
+    play(slides[current],direction);
+  }
+  function open(dialog) { returnFocus=document.activeElement; dialog.showModal(); }
+  function close(dialog) {dialog.close();if(returnFocus?.isConnected)returnFocus.focus();}
+  function notes() {$('#notes-body').innerHTML=slides[current].querySelector('.notes-template').innerHTML;open($('#notes'));}
+  function toast(message){clearTimeout(timer);$('#toast').textContent=message;$('#toast').hidden=false;timer=setTimeout(()=>$('#toast').hidden=true,4000);}
+  async function fullscreen(){try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen();}catch{toast('请使用浏览器全屏功能 / Use browser fullscreen.');}}
+  $('#prev').onclick=()=>navigate(current-1,-1);$('#next').onclick=()=>navigate(current+1,1);
+  $('#replay').onclick=()=>play(slides[current]);$('#overview-open').onclick=()=>open($('#overview'));
+  $('#notes-open').onclick=notes;$('#fullscreen').onclick=fullscreen;
+  document.querySelectorAll('[data-go]').forEach(button=>button.onclick=()=>{const dialog=button.closest('dialog');if(dialog)close(dialog);navigate(Number(button.dataset.go));$('#stage').focus({preventScroll:true});});
+  document.querySelectorAll('[data-close]').forEach(button=>button.onclick=()=>close(button.closest('dialog')));
+  document.querySelectorAll('dialog').forEach(dialog=>dialog.addEventListener('cancel',()=>{if(returnFocus?.isConnected)returnFocus.focus();}));
+  document.addEventListener('keydown',event=>{
+    if(event.ctrlKey||event.metaKey||event.altKey||event.isComposing||event.target.isContentEditable||event.target.closest('input,textarea,select,video,dialog[open]'))return;
+    if(document.querySelector('dialog[open]'))return;
+    if(event.key===' '&&event.target.closest('button,a'))return;
+    const key=event.key.toLowerCase();
+    if(['arrowright','arrowdown','pagedown',' '].includes(key)){event.preventDefault();navigate(current+1,1);}
+    else if(['arrowleft','arrowup','pageup'].includes(key)){event.preventDefault();navigate(current-1,-1);}
+    else if(key==='home'){event.preventDefault();navigate(0,-1);}
+    else if(key==='end'){event.preventDefault();navigate(slides.length-1,1);}
+    else if(key==='r'&&!$('#replay').disabled)play(slides[current]);
+    else if(key==='o')open($('#overview'));else if(key==='n')notes();else if(key==='f')fullscreen();
+  });
+  const fromHash=()=>{const n=Number(location.hash.slice(1));navigate(Number.isInteger(n)&&n>0?n-1:0);};
+  addEventListener('hashchange',fromHash);
+  reduce.addEventListener('change',()=>{cancel();$('#replay').disabled=reduce.matches||slides[current].dataset.motion==='static';});
+  addEventListener('beforeprint',cancel);
+  fromHash();
+})();
+</script></body></html>

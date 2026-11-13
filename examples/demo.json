@@ -1,0 +1,331 @@
+{
+  "title": "把复杂问题，讲清楚",
+  "subtitle": "一份可以复用的分享结构",
+  "theme": "paper-grid",
+  "language": "zh-CN",
+  "footer": "SHARING NOTES / 示例内容",
+  "slides": [
+    {
+      "id": "opening",
+      "type": "cover",
+      "kicker": "A PRACTICAL GUIDE",
+      "title": "把复杂问题，\n讲清楚。",
+      "subtitle": "从一个问题，到一场有用的分享。",
+      "notes": "本示例使用通用内容与程序绘制的几何图形。涉及比例或趋势的页面均为演示数据。"
+    },
+    {
+      "id": "contents",
+      "type": "contents",
+      "kicker": "READING MAP",
+      "title": "今天，\n走过四步。",
+      "body": "先确定听众需要带走什么，再组织证据，最后检查现场能否看懂。",
+      "items": [
+        {
+          "title": "找到一个清楚的问题",
+          "target": "question"
+        },
+        {
+          "title": "把内容排成阅读顺序",
+          "target": "principles"
+        },
+        {
+          "title": "用证据支撑表达",
+          "target": "evidence"
+        },
+        {
+          "title": "留下一个可执行的动作",
+          "target": "closing"
+        }
+      ]
+    },
+    {
+      "id": "question",
+      "type": "statement",
+      "kicker": "01 / QUESTION",
+      "title": "一页，\n只推进一个问题。",
+      "notes": "标题给方向，证据给理由。",
+      "emphasis": [
+        "一个问题"
+      ]
+    },
+    {
+      "id": "principles",
+      "type": "columns",
+      "kicker": "02 / STRUCTURE",
+      "title": "内容先于装饰。",
+      "items": [
+        {
+          "title": "结论能被复述",
+          "body": "把主要意思写成完整的一句话，避免只留下抽象名词。"
+        },
+        {
+          "title": "关系可以看见",
+          "body": "先后用时间轴，并列用分栏，比例才使用面积或长度。"
+        },
+        {
+          "title": "细节有地方安放",
+          "body": "把背景和来源放进讲者提示，让主画面保留阅读空间。"
+        }
+      ],
+      "emphasis": [
+        "内容"
+      ]
+    },
+    {
+      "id": "toolkit",
+      "type": "metrics",
+      "kicker": "THE TOOLKIT",
+      "title": "把常用能力，\n收进一个工具箱。",
+      "body": "以下数字描述这个开源演示工具包本身。",
+      "items": [
+        {
+          "title": "内容版式",
+          "value": "15",
+          "unit": "种",
+          "body": "覆盖观点、方法、流程、比例、图表与案例。"
+        },
+        {
+          "title": "视觉预设",
+          "value": "5",
+          "unit": "套",
+          "body": "统一内容结构，各自保留色彩和排版特征。"
+        },
+        {
+          "title": "外部运行依赖",
+          "value": "0",
+          "unit": "项",
+          "body": "生成仅用 Python 标准库，成稿在浏览器中运行。"
+        }
+      ]
+    },
+    {
+      "id": "ratio",
+      "type": "ratio",
+      "kicker": "03 / EVIDENCE",
+      "title": "有比例，\n才画比例。",
+      "body": "每个点都代表相同的份额，图形和数字一起表达事实。",
+      "value": 8,
+      "total": 10,
+      "dots": 20,
+      "caption": "示意：10 项中完成了 8 项。",
+      "basis": "虚构演示数据；不对应真实团队、调查或业务结果。",
+      "notes": "20 个点中有 16 个实心。更换比例后，生成器检查总点数是否能准确表达；不能整点表达时改用比例条。"
+    },
+    {
+      "id": "timeline",
+      "type": "timeline",
+      "kicker": "04 / SEQUENCE",
+      "title": "让听众知道，事情怎样发生。",
+      "items": [
+        {
+          "label": "准备",
+          "title": "收集事实",
+          "body": "先看原始材料，再写判断。"
+        },
+        {
+          "label": "组织",
+          "title": "确认关系",
+          "body": "区分时间、因果和普通并列。"
+        },
+        {
+          "label": "呈现",
+          "title": "逐步展开",
+          "body": "只让本次需要关注的部分动起来。"
+        },
+        {
+          "label": "复查",
+          "title": "回到现场",
+          "body": "看字号、断行、对比和操作。"
+        }
+      ]
+    },
+    {
+      "id": "process",
+      "type": "process",
+      "kicker": "05 / WORKFLOW",
+      "title": "稳定的结果，来自可重复的步骤。",
+      "items": [
+        {
+          "title": "填写内容",
+          "body": "选择页型，输入文字、数字、说明与来源。"
+        },
+        {
+          "title": "生成演示",
+          "body": "让布局和动画由同一套规则完成。"
+        },
+        {
+          "title": "检查画面",
+          "body": "过密就拆页，不用更小字号掩盖问题。"
+        }
+      ]
+    },
+    {
+      "id": "comparison",
+      "type": "comparison",
+      "kicker": "06 / EDITING",
+      "title": "把难读，变成容易跟上。",
+      "items": [
+        {
+          "title": "信息堆叠",
+          "body": "一页混入背景、观点、多个案例和结论。\n观众不知道应先看哪里。"
+        },
+        {
+          "title": "一层一层讲",
+          "body": "先说观点，再给一个证据。\n补充细节放入提示或后续页面。"
+        }
+      ]
+    },
+    {
+      "id": "evidence",
+      "type": "chart",
+      "kicker": "07 / DATA",
+      "title": "让变化能被辨认。",
+      "body": "保留坐标、单位与样本说明，画面才有解释力。",
+      "values": [
+        3,
+        5,
+        4,
+        7,
+        8
+      ],
+      "labels": [
+        "第1轮",
+        "第2轮",
+        "第3轮",
+        "第4轮",
+        "第5轮"
+      ],
+      "unit": "已完成项 / 个",
+      "basis": "虚构演示序列：各轮等间隔，仅用于展示图表能力。",
+      "caption": "数据不足时，不补画不存在的趋势。",
+      "notes": "本图只支持等间隔序列；不规则日期需在独立图表工具中准确绘制后作为有来源的图像使用。"
+    },
+    {
+      "id": "examples",
+      "type": "gallery",
+      "kicker": "08 / EXAMPLES",
+      "title": "图形，帮助解释结构。",
+      "body": "下列示意由工具包直接绘制，没有使用网络照片或第三方商标。",
+      "items": [
+        {
+          "title": "分层",
+          "body": "把复杂对象拆成可讨论的部分。",
+          "art": "layers"
+        },
+        {
+          "title": "路径",
+          "body": "用转折与节点说明推进过程。",
+          "art": "route"
+        },
+        {
+          "title": "界面",
+          "body": "为具体信息建立稳定的位置。",
+          "art": "window"
+        }
+      ]
+    },
+    {
+      "id": "takeaway",
+      "type": "statement",
+      "kicker": "TAKEAWAY",
+      "title": "让设计，\n为理解留出空间。",
+      "notes": "信息足够清楚时，画面可以很安静。"
+    },
+    {
+      "id": "rehearsal",
+      "type": "section",
+      "title": "现在，\n开始一次试讲。",
+      "active": "rehearsal",
+      "items": [
+        {
+          "title": "确定问题",
+          "target": "question"
+        },
+        {
+          "title": "组织证据",
+          "target": "evidence"
+        },
+        {
+          "title": "现场试讲",
+          "target": "rehearsal"
+        },
+        {
+          "title": "带走行动",
+          "target": "closing"
+        }
+      ],
+      "notes": "章节页只标记讲述进入新的阶段，不承担完整解释。"
+    },
+    {
+      "id": "listen",
+      "type": "dialogue",
+      "kicker": "ASK ONE QUESTION",
+      "title": "“听完以后，\n你记住了哪一句？”",
+      "emphasis": [
+        "哪一句"
+      ],
+      "items": [
+        {
+          "title": "先听反馈",
+          "body": "请对方直接复述，不提前提示标准答案。"
+        },
+        {
+          "title": "再看差异",
+          "body": "比较你想传达的重点与对方实际记住的内容。"
+        },
+        {
+          "title": "最后修改",
+          "body": "把难记住的部分缩短，或换一个更贴近经验的例子。"
+        }
+      ],
+      "notes": "这是试讲的提问示例，不是要求所有分享必须安排现场互动。"
+    },
+    {
+      "id": "revise",
+      "type": "rows",
+      "title": "每一次修改，\n都对应一个问题。",
+      "emphasis": [
+        "一个问题"
+      ],
+      "body": "检查信息是否被理解，再决定需要删减、拆页还是换一种表达。",
+      "items": [
+        {
+          "title": "主张不清楚",
+          "body": "把名词式标题改为一个有依据的完整判断。"
+        },
+        {
+          "title": "证据不匹配",
+          "body": "换成能够支持当前观点的材料，注明必要口径。"
+        },
+        {
+          "title": "画面过于重复",
+          "body": "根据关系选择条目、流程或大图，不为变化而装饰。"
+        }
+      ]
+    },
+    {
+      "id": "one-image",
+      "type": "gallery",
+      "title": "一个图，\n只解释一种结构。",
+      "emphasis": [
+        "一种结构"
+      ],
+      "body": "素材应该帮助观众理解，不只是填满留白。",
+      "items": [
+        {
+          "title": "结构示意",
+          "art": "layers",
+          "body": "分层图解释组成；真实界面、照片或作品应使用有来源的原始素材。",
+          "credit": "工具包原创几何示意；非真实产品界面"
+        }
+      ]
+    },
+    {
+      "id": "closing",
+      "type": "end",
+      "kicker": "NEXT STEP",
+      "title": "带着问题来，\n带着行动走。",
+      "subtitle": "写下你下一次分享最想讲清楚的那句话。"
+    }
+  ]
+}
