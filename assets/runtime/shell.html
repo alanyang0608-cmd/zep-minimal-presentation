@@ -1,0 +1,11 @@
+<!doctype html>
+<html lang="@@LANG@@">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="presentation-version" content="@@VERSION@@"><meta name="presentation-theme" content="@@THEME@@"><meta name="presentation-style-sha256" content="@@STYLE_HASH@@"><title>@@TITLE@@</title><style>@@CSS@@</style></head>
+<body class="theme-@@THEME@@">
+<header class="toolbar"><span class="deck-name">@@TITLE@@</span><div><button id="replay" title="Replay / 重播 (R)">↻<span> 重播</span></button><button id="overview-open" title="Overview / 总览 (O)">总览</button><button id="notes-open" title="Notes / 提示 (N)">提示</button><button id="fullscreen" title="Fullscreen / 全屏 (F)">全屏</button></div></header>
+<main id="stage" tabindex="-1">@@SLIDES@@</main>
+<nav class="navigation" aria-label="Slide navigation"><span class="keys">← → 翻页 · R 重播</span><span id="counter" aria-live="polite"></span><div><button id="prev" aria-label="Previous slide / 上一页">←</button><button id="next" aria-label="Next slide / 下一页">→</button></div></nav><div id="progress" aria-hidden="true"></div>
+<dialog id="overview"><header><h2>页面总览 / Overview</h2><button data-close aria-label="Close / 关闭">×</button></header><div class="overview-grid">@@OVERVIEW@@</div></dialog>
+<dialog id="notes"><header><h2>讲者提示 / Notes</h2><button data-close aria-label="Close / 关闭">×</button></header><div id="notes-body"></div></dialog>
+<div id="toast" role="status" hidden></div>
+<script>@@JS@@</script></body></html>
