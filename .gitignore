@@ -1,0 +1,16 @@
+__pycache__/
+*.pyc
+.DS_Store
+.env
+.env.*
+node_modules/
+private/
+private-backup/
+my-talk.html
+yellow-talk.html
+deck.json
+presentation.html
+talk.html
+output/
+outputs/
+drafts/
