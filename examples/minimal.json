@@ -1,0 +1,10 @@
+{
+  "title": "一个清楚的分享",
+  "language": "zh-CN",
+  "footer": "示例 / SAMPLE",
+  "slides": [
+    {"id":"start","type":"cover","title":"先把问题，\n说清楚。","subtitle":"用自己的内容替换这份最小示例。"},
+    {"id":"method","type":"columns","title":"把复杂内容分成三步。","items":[{"title":"观察","body":"记录看到的事实。"},{"title":"判断","body":"说明自己的推理。"},{"title":"行动","body":"给出下一步的选择。"}]},
+    {"id":"finish","type":"end","title":"下一步，\n从这里开始。","subtitle":"留下一个具体的问题或动作。"}
+  ]
+}
